@@ -7,10 +7,10 @@
     <style>
         body { font-family: sans-serif; display: flex; justify-content: center; padding: 20px; background: #f4f7f6; }
         #quiz-container { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
-        .answer-btn { display: block; width: 100%; margin: 8px 0; padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: white; cursor: pointer; text-align: left; }
+        .answer-btn { display: block; width: 100%; margin: 8px 0; padding: 15px; border: 1px solid #ddd; border-radius: 8px; background: white; cursor: pointer; text-align: left; transition: 0.2s; }
         .answer-btn:hover { background: #f0f0f0; }
-        .correct { background: #2ecc71 !important; color: white; }
-        .wrong { background: #e74c3c !important; color: white; }
+        .correct { background: #2ecc71 !important; color: white; border-color: #27ae60; }
+        .wrong { background: #e74c3c !important; color: white; border-color: #c0392b; }
         h1, h2, h3 { text-align: center; }
     </style>
 </head>
@@ -86,12 +86,18 @@ function renderQuestion() {
 
 function check(isCorrect, btn) {
     btn.className = isCorrect ? 'answer-btn correct' : 'answer-btn wrong';
+    const allBtns = document.querySelectorAll('.answer-btn');
+    allBtns.forEach(b => b.style.pointerEvents = 'none');
     if(isCorrect) score++;
+    
     setTimeout(() => {
         index++;
         if(index < 10) renderQuestion();
         else {
-            document.getElementById('quiz-container').innerHTML = `<h2>Результат: ${score}/10</h2><button class="answer-btn" onclick="location.reload()">На главную</button>`;
+            document.getElementById('quiz-container').innerHTML = `
+                <h2>Результат: ${score}/10</h2>
+                <button class="answer-btn" onclick="location.reload()">На главную</button>
+            `;
         }
     }, 800);
 }

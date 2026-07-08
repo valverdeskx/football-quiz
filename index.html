@@ -7,37 +7,61 @@
     <style>
         body { font-family: sans-serif; display: flex; justify-content: center; padding: 20px; background: #f4f7f6; }
         #quiz-container { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
-        .answer-btn { display: block; width: 100%; margin: 8px 0; padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: white; cursor: pointer; }
+        .answer-btn { display: block; width: 100%; margin: 8px 0; padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: white; cursor: pointer; text-align: left; }
         .answer-btn:hover { background: #f0f0f0; }
         .correct { background: #2ecc71 !important; color: white; }
         .wrong { background: #e74c3c !important; color: white; }
-        .menu { text-align: center; }
+        h1, h2, h3 { text-align: center; }
     </style>
 </head>
 <body>
 
 <div id="quiz-container">
-    <div id="game-ui" class="menu">
+    <div id="game-ui">
         <h1>Football Quiz</h1>
-        <button class="answer-btn" onclick="startQuiz('easy')">Легкий (10 вопр.)</button>
-        <button class="answer-btn" onclick="startQuiz('medium')">Средний (10 вопр.)</button>
-        <button class="answer-btn" onclick="startQuiz('hard')">Сложный (10 вопр.)</button>
+        <button class="answer-btn" onclick="startQuiz('easy')">Легкий уровень</button>
+        <button class="answer-btn" onclick="startQuiz('medium')">Средний уровень</button>
+        <button class="answer-btn" onclick="startQuiz('hard')">Сложный уровень</button>
     </div>
 </div>
 
 <script>
 const quizData = {
     easy: [
-        { question: "Кто выиграл ЧМ-2022?", answers: [{text: "Аргентина", correct: true}, {text: "Франция", correct: false}, {text: "Бразилия", correct: false}, {text: "Англия", correct: false}] },
-        /* ... вставь остальные 9 вопросов для easy здесь ... */
+        {question: "Кто выиграл ЧМ-2022?", answers: [{text: "Аргентина", correct: true}, {text: "Франция", correct: false}, {text: "Бразилия", correct: false}, {text: "Англия", correct: false}]},
+        {question: "Сколько игроков в составе команды?", answers: [{text: "9", correct: false}, {text: "10", correct: false}, {text: "11", correct: true}, {text: "12", correct: false}]},
+        {question: "Кто защищает ворота?", answers: [{text: "Нападающий", correct: false}, {text: "Вратарь", correct: true}, {text: "Судья", correct: false}, {text: "Тренер", correct: false}]},
+        {question: "Сколько таймов в матче?", answers: [{text: "1", correct: false}, {text: "2", correct: true}, {text: "3", correct: false}, {text: "4", correct: false}]},
+        {question: "Чем играют в футбол?", answers: [{text: "Мяч", correct: true}, {text: "Шайба", correct: false}, {text: "Волан", correct: false}, {text: "Диск", correct: false}]},
+        {question: "Турнир лучших сборных?", answers: [{text: "Лига Чемпионов", correct: false}, {text: "ЧМ", correct: true}, {text: "Олимпиада", correct: false}, {text: "Кубок", correct: false}]},
+        {question: "Как вводят мяч из аута?", answers: [{text: "Ногами", correct: false}, {text: "Руками", correct: true}, {text: "Головой", correct: false}, {text: "Судья", correct: false}]},
+        {question: "Карточка за удаление?", answers: [{text: "Желтая", correct: false}, {text: "Красная", correct: true}, {text: "Синяя", correct: false}, {text: "Зеленая", correct: false}]},
+        {question: "Где играют в футбол?", answers: [{text: "На корте", correct: false}, {text: "На поле", correct: true}, {text: "На льду", correct: false}, {text: "В зале", correct: false}]},
+        {question: "Что такое гол?", answers: [{text: "Мяч в воротах", correct: true}, {text: "Пас", correct: false}, {text: "Аут", correct: false}, {text: "Фол", correct: false}]}
     ],
     medium: [
-        { question: "Какой клуб называют 'Сливочными'?", answers: [{text: "Барселона", correct: false}, {text: "Реал Мадрид", correct: true}, {text: "Ювентус", correct: false}, {text: "Милан", correct: false}] },
-        /* ... вставь остальные 9 вопросов для medium здесь ... */
+        {question: "Клуб 'Сливочные'?", answers: [{text: "Барса", correct: false}, {text: "Реал Мадрид", correct: true}, {text: "Юве", correct: false}, {text: "Милан", correct: false}]},
+        {question: "Больше Золотых мячей у...", answers: [{text: "Роналду", correct: false}, {text: "Месси", correct: true}, {text: "Пеле", correct: false}, {text: "Марадоны", correct: false}]},
+        {question: "Страна Баварии?", answers: [{text: "Испания", correct: false}, {text: "Англия", correct: false}, {text: "Германия", correct: true}, {text: "Италия", correct: false}]},
+        {question: "Бомбардир Португалии?", answers: [{text: "Фигу", correct: false}, {text: "Эйсебио", correct: false}, {text: "Роналду", correct: true}, {text: "Нани", correct: false}]},
+        {question: "Клуб Марадоны в Европе?", answers: [{text: "Наполи", correct: true}, {text: "Интер", correct: false}, {text: "Челси", correct: false}, {text: "Ливерпуль", correct: false}]},
+        {question: "Длительность матча?", answers: [{text: "80 мин", correct: false}, {text: "90 мин", correct: true}, {text: "100 мин", correct: false}, {text: "45 мин", correct: false}]},
+        {question: "Удар с 11 метров?", answers: [{text: "Пенальти", correct: true}, {text: "Угловой", correct: false}, {text: "Аут", correct: false}, {text: "Штрафной", correct: false}]},
+        {question: "Победитель ЛЧ 2024?", answers: [{text: "Ман Сити", correct: false}, {text: "Реал Мадрид", correct: true}, {text: "ПСЖ", correct: false}, {text: "Бавария", correct: false}]},
+        {question: "Легенда МЮ?", answers: [{text: "Клопп", correct: false}, {text: "Фергюсон", correct: true}, {text: "Гвардиола", correct: false}, {text: "Моуринью", correct: false}]},
+        {question: "Прозвище МЮ?", answers: [{text: "Ливерпуль", correct: false}, {text: "Ман Юнайтед", correct: true}, {text: "Арсенал", correct: false}, {text: "Челси", correct: false}]}
     ],
     hard: [
-        { question: "Кто выиграл первый Кубок европейских чемпионов?", answers: [{text: "Реал Мадрид", correct: true}, {text: "Милан", correct: false}, {text: "Бенфика", correct: false}, {text: "Бавария", correct: false}] },
-        /* ... вставь остальные 9 вопросов для hard здесь ... */
+        {question: "Первый победитель КЕЧ?", answers: [{text: "Реал Мадрид", correct: true}, {text: "Милан", correct: false}, {text: "Бенфика", correct: false}, {text: "Бавария", correct: false}]},
+        {question: "Самый быстрый гол ЧМ?", answers: [{text: "Шюкюр", correct: true}, {text: "Пеле", correct: false}, {text: "Роналдо", correct: false}, {text: "Мюллер", correct: false}]},
+        {question: "Год первого ЧМ?", answers: [{text: "1930", correct: true}, {text: "1950", correct: false}, {text: "1924", correct: false}, {text: "1942", correct: false}]},
+        {question: "Рука Бога?", answers: [{text: "Пеле", correct: false}, {text: "Марадона", correct: true}, {text: "Месси", correct: false}, {text: "Роналдиньо", correct: false}]},
+        {question: "Кто выиграл Евро-2004?", answers: [{text: "Португалия", correct: false}, {text: "Греция", correct: true}, {text: "Франция", correct: false}, {text: "Испания", correct: false}]},
+        {question: "Матчей за Реал?", answers: [{text: "Рауль", correct: true}, {text: "Касильяс", correct: false}, {text: "Бензема", correct: false}, {text: "Рамос", correct: false}]},
+        {question: "Непобедимые в АПЛ?", answers: [{text: "Челси", correct: false}, {text: "Арсенал", correct: true}, {text: "МЮ", correct: false}, {text: "Ливерпуль", correct: false}]},
+        {question: "91 гол за год?", answers: [{text: "Пеле", correct: false}, {text: "Мюллер", correct: false}, {text: "Месси", correct: true}, {text: "Роналду", correct: false}]},
+        {question: "В 3 финалах ЛЧ забил?", answers: [{text: "Роналду", correct: true}, {text: "Месси", correct: false}, {text: "Бэйл", correct: false}, {text: "Салах", correct: false}]},
+        {question: "7 КЕЧ подряд?", answers: [{text: "Реал", correct: false}, {text: "Милан", correct: false}, {text: "Аякс", correct: false}, {text: "Никто", correct: true}]}
     ]
 };
 
@@ -53,7 +77,7 @@ function startQuiz(diff) {
 
 function renderQuestion() {
     const q = currentQuestions[index];
-    let html = `<h3>${q.question}</h3>`;
+    let html = `<h3>Вопрос ${index + 1} из 10</h3><p>${q.question}</p>`;
     q.answers.forEach(a => {
         html += `<button class="answer-btn" onclick="check(${a.correct}, this)">${a.text}</button>`;
     });
@@ -67,7 +91,7 @@ function check(isCorrect, btn) {
         index++;
         if(index < 10) renderQuestion();
         else {
-            document.getElementById('quiz-container').innerHTML = `<h2>Результат: ${score}/10</h2><button class="answer-btn" onclick="location.reload()">Меню</button>`;
+            document.getElementById('quiz-container').innerHTML = `<h2>Результат: ${score}/10</h2><button class="answer-btn" onclick="location.reload()">На главную</button>`;
         }
     }, 800);
 }

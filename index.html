@@ -2,14 +2,75 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Football Quiz</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; padding: 20px; background: #f4f7f6; }
+        #quiz-container { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        .answer-btn { display: block; width: 100%; margin: 8px 0; padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: white; cursor: pointer; }
+        .answer-btn:hover { background: #f0f0f0; }
+        .correct { background: #2ecc71 !important; color: white; }
+        .wrong { background: #e74c3c !important; color: white; }
+        .menu { text-align: center; }
+    </style>
 </head>
 <body>
-    <div id="quiz-container">
-        <h2 id="question">Загрузка...</h2>
-        <div id="answers"></div>
+
+<div id="quiz-container">
+    <div id="game-ui" class="menu">
+        <h1>Football Quiz</h1>
+        <button class="answer-btn" onclick="startQuiz('easy')">Легкий (10 вопр.)</button>
+        <button class="answer-btn" onclick="startQuiz('medium')">Средний (10 вопр.)</button>
+        <button class="answer-btn" onclick="startQuiz('hard')">Сложный (10 вопр.)</button>
     </div>
-    <script src="script.js"></script>
+</div>
+
+<script>
+const quizData = {
+    easy: [
+        { question: "Кто выиграл ЧМ-2022?", answers: [{text: "Аргентина", correct: true}, {text: "Франция", correct: false}, {text: "Бразилия", correct: false}, {text: "Англия", correct: false}] },
+        /* ... вставь остальные 9 вопросов для easy здесь ... */
+    ],
+    medium: [
+        { question: "Какой клуб называют 'Сливочными'?", answers: [{text: "Барселона", correct: false}, {text: "Реал Мадрид", correct: true}, {text: "Ювентус", correct: false}, {text: "Милан", correct: false}] },
+        /* ... вставь остальные 9 вопросов для medium здесь ... */
+    ],
+    hard: [
+        { question: "Кто выиграл первый Кубок европейских чемпионов?", answers: [{text: "Реал Мадрид", correct: true}, {text: "Милан", correct: false}, {text: "Бенфика", correct: false}, {text: "Бавария", correct: false}] },
+        /* ... вставь остальные 9 вопросов для hard здесь ... */
+    ]
+};
+
+let currentQuestions = [];
+let index = 0;
+let score = 0;
+
+function startQuiz(diff) {
+    currentQuestions = quizData[diff];
+    index = 0; score = 0;
+    renderQuestion();
+}
+
+function renderQuestion() {
+    const q = currentQuestions[index];
+    let html = `<h3>${q.question}</h3>`;
+    q.answers.forEach(a => {
+        html += `<button class="answer-btn" onclick="check(${a.correct}, this)">${a.text}</button>`;
+    });
+    document.getElementById('quiz-container').innerHTML = html;
+}
+
+function check(isCorrect, btn) {
+    btn.className = isCorrect ? 'answer-btn correct' : 'answer-btn wrong';
+    if(isCorrect) score++;
+    setTimeout(() => {
+        index++;
+        if(index < 10) renderQuestion();
+        else {
+            document.getElementById('quiz-container').innerHTML = `<h2>Результат: ${score}/10</h2><button class="answer-btn" onclick="location.reload()">Меню</button>`;
+        }
+    }, 800);
+}
+</script>
 </body>
 </html>

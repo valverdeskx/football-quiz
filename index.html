@@ -10,10 +10,13 @@
 
     <div class="quiz-container">
         <h1 id="question-title">⚽ Football Quiz</h1>
-        <p id="question-text">Добро пожаловать в футбольную викторину!</p>
+        <p id="question-text">Добро пожаловать в футбольную викторину! Выберите уровень сложности:</p>
         
         <div id="answer-buttons">
-            <button class="btn" onclick="startQuiz()">Начать игру 🚀</button>
+            <!-- Кнопки выбора сложности -->
+            <button class="btn btn-easy" onclick="startQuiz('easy')">Легкий 🟢</button>
+            <button class="btn btn-medium" onclick="startQuiz('medium')">Средний 🟡</button>
+            <button class="btn btn-hard" onclick="startQuiz('hard')">Сложный 🔴</button>
         </div>
     </div>
 

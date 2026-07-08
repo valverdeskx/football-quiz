@@ -1,3 +1,17 @@
-.btn-easy:hover { background: #2ecc71 !important; color: white !important; }
-.btn-medium:hover { background: #f1c40f !important; color: #0f2027 !important; }
-.btn-hard:hover { background: #e74c3c !important; color: white !important; }
+body { font-family: 'Arial', sans-serif; display: flex; justify-content: center; padding: 20px; background: #f4f7f6; }
+#quiz-container { background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
+
+.answer-btn { 
+    display: block; width: 100%; margin: 10px 0; padding: 15px; border: none; border-radius: 8px; 
+    background: #3498db; color: white; cursor: pointer; transition: 0.3s; font-size: 16px; 
+}
+.answer-btn:hover { background: #2980b9; }
+
+/* Анимация отклика */
+.answer-btn.correct { background: #27ae60 !important; transform: scale(1.02); }
+.answer-btn.wrong { background: #c0392b !important; animation: shake 0.3s; }
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); 75% { transform: translateX(5px); } }
+}

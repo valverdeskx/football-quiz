@@ -1,4 +1,3 @@
-// База данных вопросов по уровням сложности
 const quizData = {
     easy: [
         { question: "Кто выиграл наибольшее количество «Золотых мячей»?", answers: [{ text: "Криштиану Роналду", correct: false }, { text: "Лионель Месси", correct: true }, { text: "Пеле", correct: false }, { text: "Марадона", correct: false }] },
@@ -31,7 +30,7 @@ const quizData = {
         { question: "Какая африканская сборная ПЕРВОЙ в истории дошла до полуфинала Чемпионата мира?", answers: [{ text: "Гана", correct: false }, { text: "Сенегал", correct: false }, { text: "Камерун", correct: false }, { text: "Марокко", correct: true }] },
         { question: "Кто стал лучшим бомбардиром ЧМ-2014 в Бразилии?", answers: [{ text: "Томас Мюллер", correct: false }, { text: "Хамес Родригес", correct: true }, { text: "Лионель Месси", correct: false }, { text: "Неймар", correct: false }] },
         { question: "Какой французский клуб, кроме «Марселя», доходил до финала ЛЧ в XXI веке?", answers: [{ text: "ПСЖ", correct: false }, { text: "Монако", correct: true }, { text: "Лион", correct: false }, { text: "Лилль", correct: false }] },
-        { question: "Кто из тренеров выиграл Лигу Чемпионов с двумя разными португальскими клубами?", answers: [{ text: "Жозе Моуринью", correct: false }, { text: "Никто", correct: true }, { text: "Жорже Жезуш", correct: false }, { text: "Фернанду Сантуш", correct: false }] }, // Примечание: Моуринью выиграл только с Порту (и Интером)
+        { question: "Кто из тренеров выиграл Лигу Чемпионов с двумя разными португальскими клубами?", answers: [{ text: "Жозе Моуринью", correct: false }, { text: "Никто", correct: true }, { text: "Жорже Жезуш", correct: false }, { text: "Фернанду Сантуш", correct: false }] },
         { question: "Какому клубу принадлежит рекорд по количеству матчей без поражений подряд в АПЛ (49 матчей)?", answers: [{ text: "Манчестер Юнайтед", correct: false }, { text: "Челси", correct: false }, { text: "Арсенал", correct: true }, { text: "Манчестер Сити", correct: false }] },
         { question: "В каком клубе завершил игровую карьеру легендарный Зинедин Зидан?", answers: [{ text: "Ювентус", correct: false }, { text: "Реал Мадрид", correct: true }, { text: "Бордо", correct: false }, { text: "Канн", correct: false }] },
         { question: "Кто взял «Золотой мяч» в 1994 году после триумфа на Чемпионате мира?", answers: [{ text: "Ромарио", correct: false }, { text: "Христо Стоичков", correct: true }, { text: "Роберто Баджо", correct: false }, { text: "Паоло Мальдини", correct: false }] }
@@ -41,9 +40,11 @@ const quizData = {
 let currentQuestions = [];
 let currentQuestionIndex = 0;
 let score = 0;
+let timer; 
+let timeLeft = 15; 
 
 function startQuiz(difficulty) {
-    currentQuestions = quizData[difficulty]; // Загружаем вопросы выбранной сложности
+    currentQuestions = quizData[difficulty];
     currentQuestionIndex = 0;
     score = 0;
     showQuestion();
@@ -64,6 +65,25 @@ function showQuestion() {
         button.addEventListener("click", () => selectAnswer(answer));
         document.getElementById("answer-buttons").appendChild(button);
     });
+
+    startTimer(); 
+}
+
+function startTimer() {
+    clearInterval(timer); 
+    timeLeft = 15; 
+    document.getElementById("timer-box").innerHTML = `⏱️ Время: ${timeLeft} сек`;
+
+    timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timer-box").innerHTML = `⏱️ Время: ${timeLeft} сек`;
+
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            alert("Время вышло! ⏰");
+            nextQuestion(); 
+        }
+    }, 1000);
 }
 
 window.resetState = function() {
@@ -74,13 +94,17 @@ window.resetState = function() {
 }
 
 window.selectAnswer = function(answer) {
+    clearInterval(timer); 
     if (answer.correct) {
         score++;
         alert("Правильно! 👍");
     } else {
         alert("Неправильно! ❌");
     }
-    
+    nextQuestion();
+}
+
+function nextQuestion() {
     currentQuestionIndex++;
     if (currentQuestionIndex < currentQuestions.length) {
         showQuestion();
@@ -91,13 +115,16 @@ window.selectAnswer = function(answer) {
 
 function showScore() {
     resetState();
+    clearInterval(timer); 
+    document.getElementById("timer-box").innerHTML = ""; 
+    
     document.getElementById("question-title").innerHTML = "Уровень пройден! 🏆";
     document.getElementById("question-text").innerHTML = `Ваш результат: ${score} из 10 правильных ответов!`;
     
     const restartButton = document.createElement("button");
     restartButton.innerHTML = "В главное меню 🔄";
     restartButton.classList.add("btn");
-    restartButton.onclick = () => location.reload(); // Перезагружает страницу для возврата к выбору сложности
+    restartButton.onclick = () => location.reload();
     document.getElementById("answer-buttons").appendChild(restartButton);
 }
 
